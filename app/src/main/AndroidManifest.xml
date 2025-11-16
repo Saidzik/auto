@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="AutoBuy Helper"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+        tools:ignore="HardcodedDebugMode">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".EmployeeDashboardActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ManagerDashboardActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ClientDashboardActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".CarsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".DealsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ReportsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".AddCarActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".AddDealActivity"
+            android:exported="false" />
+
+    </application>
+</manifest>
