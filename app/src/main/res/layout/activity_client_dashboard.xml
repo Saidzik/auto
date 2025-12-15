@@ -1,119 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#F5F5F5"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="8dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="AutoBuy Helper"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp" />
-
-        <TextView
-            android:id="@+id/tvWelcome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Клиент"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_marginBottom="10dp"
-            android:padding="10dp"
-            android:background="@drawable/edittext_background" />
-
-        <TextView
-            android:id="@+id/tvClientInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Загрузка информации..."
-            android:textSize="14sp"
-            android:textColor="@color/black"
-            android:layout_marginBottom="20dp"
-            android:padding="10dp"
-            android:background="@drawable/edittext_background" />
-
-        <!-- Скрываемый SearchView -->
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:visibility="gone"
-            app:queryHint="Поиск по марке, модели, цене..."
-            app:iconifiedByDefault="false" />
-
+        <!-- Шапка -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="10dp">
+            android:orientation="vertical"
+            android:background="#2196F3"
+            android:padding="20dp">
 
-            <Button
-                android:id="@+id/btnSearch"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tvWelcome"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                android:text="Поиск"
-                android:textSize="14sp"
-                android:backgroundTint="@color/blue"
-                android:textColor="@color/white" />
+                android:text="Добро пожаловать!"
+                android:textColor="@android:color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:gravity="center" />
 
-            <Button
-                android:id="@+id/btnFilters"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tvClientInfo"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:text="Фильтры"
+                android:text="Информация о клиенте"
+                android:textColor="@android:color/white"
                 android:textSize="14sp"
-                android:backgroundTint="@color/blue"
-                android:textColor="@color/white" />
-
+                android:gravity="center"
+                android:layout_marginTop="8dp" />
         </LinearLayout>
 
-        <!-- Панель фильтров (изначально скрыта) -->
+        <!-- Поиск -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@android:color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:queryHint="Поиск по марке, модели..." />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Фильтры по цене -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Фильтры по цене"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp" />
+
         <LinearLayout
             android:id="@+id/filtersLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/edittext_background"
-            android:padding="10dp"
-            android:layout_marginBottom="10dp"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Фильтры:"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_marginBottom="8dp" />
-
-            <!-- Фильтр по цене -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Цена:"
-                android:textSize="14sp"
-                android:textColor="@color/black"
-                android:layout_marginBottom="4dp" />
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@android:color/white"
+            android:padding="12dp"
+            android:elevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -124,173 +98,80 @@
                 <Button
                     android:id="@+id/btnFilterPriceLow"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:layout_weight="1"
                     android:layout_marginEnd="4dp"
                     android:text="До 1.5 млн"
                     android:textSize="12sp"
-                    android:backgroundTint="@color/green"
-                    android:textColor="@color/white" />
+                    android:background="#C0C0C0"
+                    android:textColor="@android:color/white" />
 
                 <Button
                     android:id="@+id/btnFilterPriceMedium"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:text="1.5-3 млн"
                     android:textSize="12sp"
-                    android:backgroundTint="@color/orange"
-                    android:textColor="@color/white" />
+                    android:background="#C0C0C0"
+                    android:textColor="@android:color/white" />
 
                 <Button
                     android:id="@+id/btnFilterPriceHigh"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:layout_weight="1"
                     android:layout_marginStart="4dp"
                     android:text="От 3 млн"
                     android:textSize="12sp"
-                    android:backgroundTint="@color/red"
-                    android:textColor="@color/white" />
-
+                    android:background="#C0C0C0"
+                    android:textColor="@android:color/white" />
             </LinearLayout>
 
-            <!-- Фильтр по статусу -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Статус:"
-                android:textSize="14sp"
-                android:textColor="@color/black"
-                android:layout_marginBottom="4dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="8dp">
-
-                <Button
-                    android:id="@+id/btnFilterStatusAvailable"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="4dp"
-                    android:text="В наличии"
-                    android:textSize="12sp"
-                    android:backgroundTint="@color/green"
-                    android:textColor="@color/white" />
-
-                <Button
-                    android:id="@+id/btnFilterStatusWaiting"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="4dp"
-                    android:text="Ожидание"
-                    android:textSize="12sp"
-                    android:backgroundTint="@color/orange"
-                    android:textColor="@color/white" />
-
-            </LinearLayout>
-
-            <!-- Фильтр по году -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Год выпуска:"
-                android:textSize="14sp"
-                android:textColor="@color/black"
-                android:layout_marginBottom="4dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="8dp">
-
-                <Button
-                    android:id="@+id/btnFilterYearNew"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="4dp"
-                    android:text="2023-2024"
-                    android:textSize="12sp"
-                    android:backgroundTint="@color/blue"
-                    android:textColor="@color/white" />
-
-                <Button
-                    android:id="@+id/btnFilterYearRecent"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="4dp"
-                    android:text="2020-2022"
-                    android:textSize="12sp"
-                    android:backgroundTint="@color/blue"
-                    android:textColor="@color/white" />
-
-            </LinearLayout>
-
-            <!-- Кнопка сброса фильтров -->
             <Button
                 android:id="@+id/btnResetFilters"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:text="Сбросить фильтры"
-                android:textSize="12sp"
-                android:backgroundTint="@color/gray"
-                android:textColor="@color/white" />
+                android:textSize="14sp"
+                android:background="#000000"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
+        <!-- Автомобили -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Доступные автомобили"
+            android:text="Автомобили в продаже"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_marginBottom="10dp" />
+            android:textColor="#333333"
+            android:padding="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewCars"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:layout_marginBottom="20dp" />
+            android:layout_margin="8dp"
+            android:background="@android:color/white"
+            android:padding="4dp" />
 
-        <LinearLayout
+        <!-- Кнопка выхода -->
+        <Button
+            android:id="@+id/btnLogout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="10dp">
-
-            <Button
-                android:id="@+id/btnProfile"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                android:text="Профиль"
-                android:textSize="14sp"
-                android:backgroundTint="@color/green"
-                android:textColor="@color/white" />
-
-            <Button
-                android:id="@+id/btnLogout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:text="Выйти"
-                android:textSize="14sp"
-                android:backgroundTint="@color/blue"
-                android:textColor="@color/white" />
-
-        </LinearLayout>
+            android:layout_height="50dp"
+            android:layout_margin="16dp"
+            android:text="Выйти"
+            android:textSize="16sp"
+            android:background="#000000"
+            android:textColor="@android:color/white"
+            android:gravity="center" />
 
     </LinearLayout>
 

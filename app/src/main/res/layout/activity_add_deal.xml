@@ -1,49 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/white">
+    android:padding="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Новая сделка"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_gravity="center"
-        android:layout_marginBottom="40dp" />
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Форма добавления сделки будет здесь"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:gravity="center"
-        android:layout_marginBottom="40dp"
-        android:padding="20dp"
-        android:background="@drawable/edittext_background" />
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnSaveDeal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Сохранить сделку"
-        android:textSize="16sp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/green"
-        android:textColor="@color/white" />
+        <!-- Автомобиль -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Автомобиль:"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp" />
 
-    <Button
-        android:id="@+id/btnBack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Назад"
-        android:textSize="16sp"
-        android:backgroundTint="@color/blue"
-        android:textColor="@color/white" />
+        <Spinner
+            android:id="@+id/spinnerCar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
 
-</LinearLayout>
+        <!-- Клиент -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Клиент:"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp" />
+
+        <Spinner
+            android:id="@+id/spinnerClient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <!-- СОТРУДНИК (НОВОЕ) -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Сотрудник:"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp" />
+
+        <Spinner
+            android:id="@+id/spinnerEmployee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Тип оплаты -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Тип оплаты:"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp" />
+
+        <Spinner
+            android:id="@+id/spinnerPaymentType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Сумма -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Сумма сделки (₽):"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/etAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="Введите сумму"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Детали сделки -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Детали сделки:"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/etDealDetails"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:hint="Дополнительная информация"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Кнопки -->
+        <Button
+            android:id="@+id/btnSaveDeal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Оформить сделку"
+            android:backgroundTint="#4CAF50"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Назад"
+            android:backgroundTint="#9E9E9E"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+</ScrollView>

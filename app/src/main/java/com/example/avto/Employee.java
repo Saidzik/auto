@@ -39,7 +39,32 @@ public class Employee {
     public double getSalary() { return salary; }
     public String getDepartment() { return department; }
 
+    // Setters
+    public void setId(int id) { this.id = id; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+    public void setPhone(String phone) { this.phone = phone; }
+    public void setEmail(String email) { this.email = email; }
+    public void setPosition(String position) { this.position = position; }
+    public void setBirthDate(String birthDate) { this.birthDate = birthDate; }
+    public void setHireDate(String hireDate) { this.hireDate = hireDate; }
+    public void setSalary(double salary) { this.salary = salary; }
+    public void setDepartment(String department) { this.department = department; }
+
     public String getFullName() {
         return firstName + " " + lastName;
+    }
+
+    // Пустой конструктор
+    public Employee() {}
+    // В класс Employee.java добавьте этот метод:
+
+    // Метод для установки полного имени (разделяет на имя и фамилию)
+    public void setFullName(String fullName) {
+        if (fullName != null && !fullName.trim().isEmpty()) {
+            String[] parts = fullName.trim().split("\\s+", 2);
+            this.firstName = parts[0];
+            this.lastName = parts.length > 1 ? parts[1] : "";
+        }
     }
 }

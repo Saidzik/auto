@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Добавьте этот массив, если его нет -->
+    <string-array name="car_statuses">
+        <item>В продаже</item>
+        <item>Продан</item>
+        <item>Забронирован</item>
+        <item>На обслуживании</item>
+    </string-array>
+</resources>

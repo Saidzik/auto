@@ -3,8 +3,7 @@ package com.example.avto.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -16,15 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder> implements Filterable {
+public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder> {
 
     private List<Employee> employeeList;
-    private List<Employee> employeeListFiltered;
     private DatabaseHelper databaseHelper;
+    private OnEmployeeClickListener listener;
 
     public EmployeeAdapter(List<Employee> employeeList, DatabaseHelper databaseHelper) {
-        this.employeeList = employeeList;
-        this.employeeListFiltered = employeeList;
+        this.employeeList = employeeList != null ? employeeList : new ArrayList<>();
         this.databaseHelper = databaseHelper;
     }
 
@@ -38,82 +36,101 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
     @Override
     public void onBindViewHolder(@NonNull EmployeeViewHolder holder, int position) {
-        Employee employee = employeeListFiltered.get(position);
+        Employee employee = employeeList.get(position);
 
+        // Рассчитываем статистику продаж
         int salesCount = databaseHelper.getEmployeeSalesCount(employee.getId());
         double totalSales = databaseHelper.getEmployeeTotalSales(employee.getId());
         double averageSale = salesCount > 0 ? totalSales / salesCount : 0;
 
+        // Устанавливаем данные
         holder.tvEmployeeName.setText(employee.getFullName());
-        holder.tvPosition.setText(employee.getPosition());
-        holder.tvDepartment.setText("Отдел: " + employee.getDepartment());
-        holder.tvSalesCount.setText(String.format(Locale.getDefault(),
-                "%d продаж", salesCount));
-        holder.tvTotalSales.setText(String.format(Locale.getDefault(),
-                "%.0f ₽", totalSales));
-        holder.tvAverageSale.setText(String.format(Locale.getDefault(),
-                "Средний чек: %.0f ₽", averageSale));
-        holder.tvContact.setText(employee.getPhone() + " | " + employee.getEmail());
+        holder.tvPosition.setText("Должность: " + employee.getPosition());
+
+        // Проверяем существование полей перед установкой
+        if (holder.tvDepartment != null) {
+            holder.tvDepartment.setText("Отдел: " +
+                    (employee.getDepartment() != null ? employee.getDepartment() : "Не указан"));
+        }
+
+        if (holder.tvSalesCount != null) {
+            holder.tvSalesCount.setText("Продаж: " + salesCount);
+        }
+
+        if (holder.tvTotalSales != null) {
+            holder.tvTotalSales.setText("Выручка: " + String.format(Locale.getDefault(), "%.0f ₽", totalSales));
+        }
+
+        if (holder.tvAverageSale != null) {
+            holder.tvAverageSale.setText("Средний чек: " + String.format(Locale.getDefault(), "%.0f ₽", averageSale));
+        }
+
+        if (holder.tvContact != null) {
+            String contact = "";
+            if (employee.getPhone() != null && !employee.getPhone().isEmpty()) {
+                contact += employee.getPhone();
+            }
+            if (employee.getEmail() != null && !employee.getEmail().isEmpty()) {
+                if (!contact.isEmpty()) contact += " | ";
+                contact += employee.getEmail();
+            }
+            holder.tvContact.setText(contact);
+        }
+
+        // Устанавливаем обработчики для кнопок
+        holder.btnEdit.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onEditClick(employee);
+            }
+        });
+
+        holder.btnDelete.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onDeleteClick(employee);
+            }
+        });
+
+        holder.btnChangePosition.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onChangePositionClick(employee);
+            }
+        });
 
         // Цветовая индикация эффективности
-        if (salesCount > 10) {
-            holder.cardView.setCardBackgroundColor(0xFFE8F5E8); // Зеленый для успешных
-        } else if (salesCount > 5) {
-            holder.cardView.setCardBackgroundColor(0xFFFFF9C4); // Желтый для средних
-        } else {
-            holder.cardView.setCardBackgroundColor(0xFFFFEBEE); // Красный для новичков
+        if (holder.cardView != null) {
+            if (salesCount > 10) {
+                holder.cardView.setCardBackgroundColor(0xFFE8F5E8); // Зеленый
+            } else if (salesCount > 5) {
+                holder.cardView.setCardBackgroundColor(0xFFFFF9C4); // Желтый
+            } else {
+                holder.cardView.setCardBackgroundColor(0xFFFFEBEE); // Красный
+            }
         }
     }
 
     @Override
     public int getItemCount() {
-        return employeeListFiltered.size();
+        return employeeList.size();
     }
 
-    @Override
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                String charString = constraint.toString();
-                if (charString.isEmpty()) {
-                    employeeListFiltered = employeeList;
-                } else {
-                    List<Employee> filteredList = new ArrayList<>();
-                    for (Employee employee : employeeList) {
-                        if (employee.getFullName().toLowerCase().contains(charString.toLowerCase()) ||
-                                employee.getPosition().toLowerCase().contains(charString.toLowerCase()) ||
-                                employee.getDepartment().toLowerCase().contains(charString.toLowerCase()) ||
-                                employee.getEmail().toLowerCase().contains(charString.toLowerCase()) ||
-                                employee.getPhone().contains(charString)) {
-                            filteredList.add(employee);
-                        }
-                    }
-                    employeeListFiltered = filteredList;
-                }
-
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = employeeListFiltered;
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                employeeListFiltered = (List<Employee>) results.values;
-                notifyDataSetChanged();
-            }
-        };
-    }
-
-    // Метод для обновления данных
     public void updateData(List<Employee> newEmployeeList) {
-        this.employeeList = newEmployeeList;
-        this.employeeListFiltered = newEmployeeList;
+        this.employeeList = newEmployeeList != null ? newEmployeeList : new ArrayList<>();
         notifyDataSetChanged();
+    }
+
+    public interface OnEmployeeClickListener {
+        void onEditClick(Employee employee);
+        void onDeleteClick(Employee employee);
+        void onChangePositionClick(Employee employee);
+    }
+
+    public void setOnEmployeeClickListener(OnEmployeeClickListener listener) {
+        this.listener = listener;
     }
 
     public static class EmployeeViewHolder extends RecyclerView.ViewHolder {
         TextView tvEmployeeName, tvPosition, tvDepartment, tvSalesCount, tvTotalSales, tvAverageSale, tvContact;
+        Button btnEdit, btnDelete, btnChangePosition;
         CardView cardView;
 
         public EmployeeViewHolder(@NonNull View itemView) {
@@ -125,6 +142,12 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
             tvTotalSales = itemView.findViewById(R.id.tvTotalSales);
             tvAverageSale = itemView.findViewById(R.id.tvAverageSale);
             tvContact = itemView.findViewById(R.id.tvContact);
+
+            // Инициализируем кнопки
+            btnEdit = itemView.findViewById(R.id.btnEdit);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
+            btnChangePosition = itemView.findViewById(R.id.btnChangePosition);
+
             cardView = itemView.findViewById(R.id.cardView);
         }
     }

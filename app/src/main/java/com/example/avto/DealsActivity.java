@@ -1,77 +1,170 @@
 package com.example.avto;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.content.Intent;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.SearchView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.avto.adapters.DealAdapter;
+import com.example.avto.database.DatabaseHelper;
 import com.example.avto.models.Deal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class DealsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewDeals;
     private DealAdapter dealAdapter;
-    private Button btnAddDeal, btnBack;
+    private DatabaseHelper databaseHelper;
+    private List<Deal> dealList;
+
+    private static final String TAG = "DealsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deals);
 
+        databaseHelper = new DatabaseHelper(this);
         initViews();
-        setupDealsList();
         setupRecyclerView();
-        setupClickListeners();
+        loadDealsFromDatabase();
+
+        Log.d(TAG, "DealsActivity created");
     }
 
     private void initViews() {
         recyclerViewDeals = findViewById(R.id.recyclerViewDeals);
-        btnAddDeal = findViewById(R.id.btnAddDeal);
-        btnBack = findViewById(R.id.btnBack);
-    }
-
-    private void setupDealsList() {
-        List<Deal> dealList = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-
-        try {
-            dealList.add(new Deal("1", "Ford Focus", sdf.parse("01.05.2024"), 1100000, "Иван Петров"));
-            dealList.add(new Deal("2", "BMW 320I", sdf.parse("23.04.2024"), 3500000, "Анна Сидорова"));
-            dealList.add(new Deal("3", "Audi A4", sdf.parse("15.04.2024"), 2800000, "Петр Иванов"));
-            dealList.add(new Deal("4", "Volkswagen Passat", sdf.parse("12.04.2024"), 1900000, "Мария Козлова"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        dealAdapter = new DealAdapter(dealList);
+        Log.d(TAG, "Views initialized");
     }
 
     private void setupRecyclerView() {
+        dealList = new ArrayList<>();
+
+        // Создаем слушатель для DealAdapter
+        DealAdapter.OnItemClickListener listener = new DealAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Deal deal) {
+                // Обработка клика по сделке
+                openDealDetails(deal);
+            }
+        };
+
+        dealAdapter = new DealAdapter(dealList, listener);
         recyclerViewDeals.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewDeals.setAdapter(dealAdapter);
+        Log.d(TAG, "RecyclerView setup completed");
     }
 
-    private void setupClickListeners() {
-        btnAddDeal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DealsActivity.this, AddDealActivity.class);
-                startActivity(intent);
-            }
-        });
+    private void openDealDetails(Deal deal) {
+        // Открываем детали сделки
+        Toast.makeText(this, "Сделка #" + deal.getId(), Toast.LENGTH_SHORT).show();
+        // В будущем: Intent intent = new Intent(this, DealDetailActivity.class);
+    }
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+    private void loadDealsFromDatabase() {
+        Log.d(TAG, "Loading deals from database...");
+
+        new Thread(() -> {
+            try {
+                List<Deal> deals = databaseHelper.getAllDeals();
+
+                runOnUiThread(() -> {
+                    Log.d(TAG, "Received " + deals.size() + " deals from database");
+                    dealAdapter.updateData(deals);
+                    Log.d(TAG, "Displaying " + deals.size() + " deals");
+                    Log.d(TAG, "Deals list updated successfully");
+                });
+            } catch (Exception e) {
+                Log.e(TAG, "Error loading deals: " + e.getMessage());
+                runOnUiThread(() -> {
+                    Toast.makeText(this, "Ошибка загрузки сделок", Toast.LENGTH_SHORT).show();
+                });
             }
-        });
+        }).start();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_deals, menu);
+
+        // Настройка поиска
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    // Реализация поиска сделок
+                    filterDeals(newText);
+                    return true;
+                }
+            });
+        }
+
+        Log.d(TAG, "SearchView setup completed");
+        return true;
+    }
+
+    private void filterDeals(String query) {
+        List<Deal> filteredList = new ArrayList<>();
+
+        if (query.isEmpty()) {
+            filteredList.addAll(dealList);
+        } else {
+            String lowerCaseQuery = query.toLowerCase();
+            for (Deal deal : dealList) {
+                if (deal.getClientName().toLowerCase().contains(lowerCaseQuery) ||
+                        deal.getCarName().toLowerCase().contains(lowerCaseQuery) ||
+                        String.valueOf(deal.getId()).contains(query)) {
+                    filteredList.add(deal);
+                }
+            }
+        }
+
+        dealAdapter.updateData(filteredList);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_search) {
+            return true;
+        } else if (id == R.id.action_add_deal) {
+            // Добавление новой сделки
+            Intent intent = new Intent(this, AddDealActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume - refreshing data");
+        loadDealsFromDatabase();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (databaseHelper != null) {
+            databaseHelper.close();
+        }
+        Log.d(TAG, "DealsActivity destroyed");
     }
 }

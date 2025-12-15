@@ -1,3 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">autobuyhelper</string>
+    <string name="app_name">Avto</string>
+
+    <!-- Добавьте эти строки: -->
+    <string name="deal_details">Детали сделки</string>
+    <string name="car_details">Детали автомобиля</string>
+    <string name="deals">Сделки</string>
+    <string name="cars">Автомобили</string>
+    <string name="reports">Отчеты</string>
+    <string name="profile">Профиль</string>
+    <string name="add_car">Добавить авто</string>
+    <string name="add_deal">Добавить сделку</string>
+
+    <!-- Также проверьте другие используемые строки -->
 </resources>

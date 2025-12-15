@@ -1,138 +1,292 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:fillViewport="true">
+    android:background="#F8F9FA"
+    android:orientation="vertical">
 
+    <!-- Верхняя панель -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:background="#2C3E50"
+        android:padding="20dp"
+        android:elevation="8dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="AutoBuy Helper - Руководство"
+            android:text="Панель управления"
+            android:textColor="@android:color/white"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp" />
+            android:gravity="center" />
 
         <TextView
             android:id="@+id/tvWelcome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Директор"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_marginBottom="10dp"
-            android:padding="10dp"
-            android:background="@drawable/edittext_background" />
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="Добро пожаловать, Директор"
+            android:textColor="#B0BEC5"
+            android:textSize="14sp" />
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvManagerInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="@color/black"
-            android:layout_marginBottom="10dp"
-            android:padding="10dp"
-            android:background="@drawable/edittext_background" />
+    <!-- Основной контент с прокруткой -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/tvCompanyStats"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_marginBottom="20dp"
-            android:padding="10dp"
-            android:background="@drawable/edittext_background" />
-
-        <!-- Панель переключения разделов -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="10dp">
+            android:orientation="vertical"
+            android:padding="20dp">
 
-            <Button
-                android:id="@+id/btnStaff"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="4dp"
-                android:text="Персонал"
-                android:textSize="14sp"
-                android:backgroundTint="@color/green"
-                android:textColor="@color/white" />
+            <!-- Текущие данные - ЦЕНТРАЛЬНЫЙ ЭЛЕМЕНТ -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardDataView"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="@android:color/white">
 
-            <Button
-                android:id="@+id/btnCars"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:text="Автомобили"
-                android:textSize="14sp"
-                android:backgroundTint="@color/blue"
-                android:textColor="@color/white" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btnReports"
-                android:layout_width="0dp"
+                    <!-- Заголовок секции -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="#F8F9FA"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:id="@+id/tvSectionTitle"
+                            android:text="Текущие данные"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="#2C3E50" />
+
+                    </LinearLayout>
+
+                    <!-- Разделитель -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ECF0F1" />
+
+                    <!-- Контейнер для данных -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewData"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:padding="12dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Заголовок функций -->
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:text="Отчеты"
-                android:textSize="14sp"
-                android:backgroundTint="@color/blue"
-                android:textColor="@color/white" />
+                android:text="Быстрые действия"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#2C3E50"
+                android:paddingTop="24dp"
+                android:paddingBottom="12dp" />
+
+            <!-- Горизонтальные кнопки действий -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <Button
+                    android:id="@+id/btnStaff"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="4dp"
+                    android:text="👥"
+                    android:textSize="18sp"
+                    android:backgroundTint="#3498DB"
+                    android:textColor="@android:color/white"
+                    android:gravity="center" />
+
+                <Button
+                    android:id="@+id/btnCars"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:text="🚗"
+                    android:textSize="18sp"
+                    android:backgroundTint="#3498DB"
+                    android:textColor="@android:color/white"
+                    android:gravity="center" />
+
+                <Button
+                    android:id="@+id/btnDeals"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:text="💰"
+                    android:textSize="18sp"
+                    android:backgroundTint="#3498DB"
+                    android:textColor="@android:color/white"
+                    android:gravity="center" />
+
+                <Button
+                    android:id="@+id/btnReports"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="4dp"
+                    android:text="📊"
+                    android:textSize="18sp"
+                    android:backgroundTint="#3498DB"
+                    android:textColor="@android:color/white"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <!-- Подписи под кнопками -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Сотрудники"
+                    android:textSize="11sp"
+                    android:textColor="#7F8C8D"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Автомобили"
+                    android:textSize="11sp"
+                    android:textColor="#7F8C8D"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Сделки"
+                    android:textSize="11sp"
+                    android:textColor="#7F8C8D"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Отчеты"
+                    android:textSize="11sp"
+                    android:textColor="#7F8C8D"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <!-- Добавление данных -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Добавление"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#2C3E50"
+                android:paddingTop="8dp"
+                android:paddingBottom="12dp" />
+
+            <!-- Кнопки добавления -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="8dp">
+
+                <Button
+                    android:id="@+id/btnAddEmployee"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="➕ Добавить сотрудника"
+                    android:textSize="15sp"
+                    android:backgroundTint="#C0C0C0"
+                    android:textColor="@android:color/white"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center|start"
+                    android:paddingStart="20dp" />
+
+                <Button
+                    android:id="@+id/btnAddCar"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="➕ Добавить автомобиль"
+                    android:textSize="15sp"
+                    android:backgroundTint="#C0C0C0"
+                    android:textColor="@android:color/white"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center|start"
+                    android:paddingStart="20dp" />
+
+                <Button
+                    android:id="@+id/btnAddDeal"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="➕ Оформить сделку"
+                    android:textSize="15sp"
+                    android:backgroundTint="#C0C0C0"
+                    android:textColor="@android:color/white"
+                    android:gravity="center|start"
+                    android:paddingStart="20dp" />
+            </LinearLayout>
 
         </LinearLayout>
+    </ScrollView>
 
-        <TextView
-            android:id="@+id/tvSectionTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Персонал салона"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_marginBottom="10dp"
-            android:gravity="center" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewData"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_marginBottom="10dp" />
-
-        <Button
-            android:id="@+id/btnExport"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Экспорт данных"
-            android:textSize="16sp"
-            android:layout_marginBottom="10dp"
-            android:backgroundTint="@color/green"
-            android:textColor="@color/white" />
+    <!-- Нижняя панель с кнопкой выхода -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:padding="12dp"
+        android:elevation="8dp">
 
         <Button
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:text="Выйти"
             android:textSize="16sp"
-            android:backgroundTint="@color/blue"
-            android:textColor="@color/white" />
-
+            android:backgroundTint="#000000"
+            android:textColor="@android:color/white"
+            android:gravity="center" />
     </LinearLayout>
 
-</ScrollView>
+</LinearLayout>

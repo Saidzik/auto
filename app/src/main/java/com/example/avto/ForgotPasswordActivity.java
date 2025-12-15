@@ -154,12 +154,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private void showPasswordDialog(String userName, String password, String email) {
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
         builder.setTitle("Пароль отправлен")
-                .setMessage("Письмо с вашим паролем было отправлено на адрес:\n" + email +
-                        "\n\nИмитация отправки - в реальном приложении пароль был бы отправлен на почту." +
-                        "\n\nВаши данные для входа:" +
-                        "\nИмя: " + userName +
-                        "\nПароль: " + password +
-                        "\n\n(В реальном приложении пароль не показывается здесь)")
+                .setMessage("Письмо с вашим паролем было отправлено на адрес:\n" + email)
                 .setPositiveButton("OK", (dialog, which) -> {
                     backToLogin();
                 })

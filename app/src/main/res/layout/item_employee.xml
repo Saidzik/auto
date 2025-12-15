@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:elevation="4dp"
-    android:clickable="true"
-    android:focusable="true">
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,85 +14,134 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Заголовок -->
         <TextView
             android:id="@+id/tvEmployeeName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Алексей Смирнов"
+            android:text="Имя сотрудника"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/black" />
+            android:textColor="#333333"
+            android:layout_marginBottom="8dp" />
 
+        <!-- Основная информация -->
         <TextView
             android:id="@+id/tvPosition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Менеджер"
-            android:textSize="14sp"
-            android:textColor="#666"
-            android:layout_marginTop="2dp" />
+            android:text="Должность"
+            android:textSize="16sp"
+            android:textColor="#666666"
+            android:layout_marginBottom="4dp" />
 
         <TextView
             android:id="@+id/tvDepartment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Отдел: Продажи"
-            android:textSize="12sp"
-            android:textColor="#666"
-            android:layout_marginTop="2dp" />
-
-        <TextView
-            android:id="@+id/tvContact"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="+79161112233 | email@example.com"
-            android:textSize="11sp"
-            android:textColor="#666"
-            android:layout_marginTop="4dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#E0E0E0"
-            android:layout_marginTop="8dp"
+            android:text="Отдел"
+            android:textSize="14sp"
+            android:textColor="#666666"
             android:layout_marginBottom="8dp" />
 
+        <!-- Статистика -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="8dp">
 
             <TextView
                 android:id="@+id/tvSalesCount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="15 продаж"
+                android:text="Продаж: 0"
                 android:textSize="14sp"
-                android:textColor="@color/black" />
+                android:textColor="#2196F3" />
 
             <TextView
                 android:id="@+id/tvTotalSales"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="300 000 ₽"
+                android:text="Выручка: 0 ₽"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:gravity="end" />
-
+                android:textColor="#4CAF50" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tvAverageSale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Средний чек: 20 000 ₽"
-            android:textSize="12sp"
-            android:textColor="#666"
-            android:gravity="end" />
+            android:text="Средний чек: 0 ₽"
+            android:textSize="14sp"
+            android:textColor="#FF9800"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Контакты -->
+        <TextView
+            android:id="@+id/tvContact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Контакт"
+            android:textSize="14sp"
+            android:textColor="#795548"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Разделитель -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Кнопки действий -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <Button
+                android:id="@+id/btnEdit"
+                android:layout_width="11dp"
+                android:layout_height="1dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:padding="4dp"
+                android:rotationX="-2"
+                android:rotationY="-103"
+                android:text=""
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btnChangePosition"
+                android:layout_width="124dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:padding="4dp"
+                android:text="Должность"
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="118dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:padding="4dp"
+                android:text="Удалить"
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
 
     </LinearLayout>
 

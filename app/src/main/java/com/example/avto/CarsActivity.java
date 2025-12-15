@@ -3,7 +3,6 @@ package com.example.avto;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.SearchView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,10 +15,8 @@ import java.util.List;
 public class CarsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewCars;
-    private CarAdapter carAdapter;
-    private List<Car> carList;
-    private Button btnAddCar, btnBack;
     private SearchView searchView;
+    private CarAdapter carAdapter;
     private DatabaseHelper databaseHelper;
 
     @Override
@@ -30,30 +27,15 @@ public class CarsActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(this);
 
         initViews();
-        setupCarList();
         setupRecyclerView();
-        setupClickListeners();
-        setupSearchView();
+        loadCars();
     }
 
     private void initViews() {
         recyclerViewCars = findViewById(R.id.recyclerViewCars);
-        btnAddCar = findViewById(R.id.btnAddCar);
-        btnBack = findViewById(R.id.btnBack);
         searchView = findViewById(R.id.searchView);
-    }
 
-    private void setupCarList() {
-        carList = databaseHelper.getAllCars();
-    }
-
-    private void setupRecyclerView() {
-        carAdapter = new CarAdapter(carList);
-        recyclerViewCars.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewCars.setAdapter(carAdapter);
-    }
-
-    private void setupSearchView() {
+        // Настройка поиска
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -70,35 +52,64 @@ public class CarsActivity extends AppCompatActivity {
         });
     }
 
-    private void setupClickListeners() {
-        btnAddCar.setOnClickListener(new View.OnClickListener() {
+    private void setupRecyclerView() {
+        recyclerViewCars.setLayoutManager(new LinearLayoutManager(this));
+
+        // Создаем адаптер с передачей контекста и реализацией ВСЕХ методов интерфейса
+        carAdapter = new CarAdapter(this, databaseHelper.getAllCars(), new CarAdapter.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CarsActivity.this, AddCarActivity.class);
+            public void onItemClick(Car car) {
+                // Открываем детали автомобиля
+                Intent intent = new Intent(CarsActivity.this, CarDetailActivity.class);
+                intent.putExtra("CAR_ID", car.getId());
                 startActivity(intent);
             }
-        });
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                finish();
+            public void onEditClick(Car car) {
+                // Реализация для редактирования автомобиля
+                // Если в CarsActivity редактирование не нужно, можно оставить пустым
+                // Или открыть активность редактирования
+                Intent intent = new Intent(CarsActivity.this, AddCarActivity.class);
+                intent.putExtra("CAR_ID", car.getId());
+                intent.putExtra("EDIT_MODE", true);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onDeleteClick(Car car) {
+                // Реализация для удаления автомобиля
+                // Если в CarsActivity удаление не нужно, можно оставить пустым
+                // Или показать диалог подтверждения
+            /*
+            new android.app.AlertDialog.Builder(CarsActivity.this)
+                .setTitle("Удаление")
+                .setMessage("Удалить автомобиль " + car.getBrand() + " " + car.getModel() + "?")
+                .setPositiveButton("Удалить", (dialog, which) -> {
+                    databaseHelper.deleteCar(car.getId());
+                    loadCars();
+                })
+                .setNegativeButton("Отмена", null)
+                .show();
+            */
             }
         });
+
+        recyclerViewCars.setAdapter(carAdapter);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Обновляем список при возвращении на экран
-        refreshCarList();
-    }
+    private void loadCars() {
+        new Thread(() -> {
+            List<Car> cars = databaseHelper.getAllCars();
 
-    private void refreshCarList() {
-        List<Car> updatedCarList = databaseHelper.getAllCars();
-        if (carAdapter != null) {
-            carAdapter.updateData(updatedCarList);
-        }
+            runOnUiThread(() -> {
+                if (cars != null && !cars.isEmpty()) {
+                    carAdapter.updateData(cars);
+                } else {
+                    // Показать сообщение об отсутствии автомобилей
+                }
+            });
+        }).start();
     }
 
     @Override

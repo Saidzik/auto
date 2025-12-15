@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.avto.R;
 import com.example.avto.models.Deal;
@@ -16,11 +15,15 @@ import java.util.Locale;
 public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder> {
 
     private List<Deal> dealList;
-    private SimpleDateFormat dateFormat;
+    private OnItemClickListener listener;
 
-    public DealAdapter(List<Deal> dealList) {
+    public interface OnItemClickListener {
+        void onItemClick(Deal deal);
+    }
+
+    public DealAdapter(List<Deal> dealList, OnItemClickListener listener) {
         this.dealList = dealList;
-        this.dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        this.listener = listener;
     }
 
     @NonNull
@@ -35,11 +38,24 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     public void onBindViewHolder(@NonNull DealViewHolder holder, int position) {
         Deal deal = dealList.get(position);
 
-        holder.tvCarName.setText(deal.getCarName());
-        holder.tvDate.setText(dateFormat.format(deal.getDate()));
-        holder.tvAmount.setText(String.format(Locale.getDefault(),
-                "%.0f ₽", deal.getAmount()));
-        holder.tvClient.setText("Клиент: " + deal.getClientName());
+        holder.tvDealId.setText("Сделка #" + deal.getId());
+        holder.tvClientName.setText("Клиент: " + deal.getClientName());
+        holder.tvCarInfo.setText("Авто: " + deal.getCarName());
+        holder.tvAmount.setText(String.format(Locale.getDefault(), "%,.0f ₽", deal.getAmount()));
+
+        // Форматируем дату
+        if (deal.getDate() != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+            holder.tvDate.setText("Дата: " + sdf.format(deal.getDate()));
+        } else {
+            holder.tvDate.setText("Дата не указана");
+        }
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(deal);
+            }
+        });
     }
 
     @Override
@@ -47,17 +63,21 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
         return dealList.size();
     }
 
-    public static class DealViewHolder extends RecyclerView.ViewHolder {
-        TextView tvCarName, tvDate, tvAmount, tvClient;
-        CardView cardView;
+    public void updateData(List<Deal> newDealList) {
+        this.dealList = newDealList;
+        notifyDataSetChanged();
+    }
+
+    static class DealViewHolder extends RecyclerView.ViewHolder {
+        TextView tvDealId, tvClientName, tvCarInfo, tvAmount, tvDate;
 
         public DealViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvCarName = itemView.findViewById(R.id.tvCarName);
-            tvDate = itemView.findViewById(R.id.tvDate);
+            tvDealId = itemView.findViewById(R.id.tvDealId);
+            tvClientName = itemView.findViewById(R.id.tvClientName);
+            tvCarInfo = itemView.findViewById(R.id.tvCarInfo);
             tvAmount = itemView.findViewById(R.id.tvAmount);
-            tvClient = itemView.findViewById(R.id.tvClient);
-            cardView = itemView.findViewById(R.id.cardView);
+            tvDate = itemView.findViewById(R.id.tvDate);
         }
     }
 }

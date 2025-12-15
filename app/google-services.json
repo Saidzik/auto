@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "249650187916",
+    "project_id": "avto-b0e43",
+    "storage_bucket": "avto-b0e43.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:249650187916:android:9e9626383fe93c1d54b5a9",
+        "android_client_info": {
+          "package_name": "com.example.avto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlkW0onwRfIyI7gdU9qyOYJLBcB7BWVgw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

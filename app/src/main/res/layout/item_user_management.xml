@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/item_background"
+    android:layout_margin="8dp">
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Имя пользователя"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/tvCurrentPosition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Должность: "
+        android:textSize="14sp"
+        android:layout_marginTop="4dp" />
+
+    <TextView
+        android:id="@+id/tvUserEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email: "
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvUserPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Телефон: "
+        android:textSize="14sp"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnChangePosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Изменить должность"
+        android:backgroundTint="#FF9800"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>
